@@ -13,7 +13,12 @@ public class Main {
 		System.out.println("Before processing");
 		printWithIntend(head, 10);
 		
-		containsOne(head);
+		boolean result = containsOne(head);
+		if(!result) {
+			head = null;
+		}
+		
+		System.out.println("result is : " + result);
 		
 		System.out.println("After processing");
 		printWithIntend(head, 10);
