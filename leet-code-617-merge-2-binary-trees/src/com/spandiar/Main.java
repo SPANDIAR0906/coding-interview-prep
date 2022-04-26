@@ -13,52 +13,61 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Node bst1 = new Node(1, new Node(3, new Node(5, null, null), null), new Node(2, null, null));
-		Node bst2 = new Node(2, new Node(1, null, new Node(4, null, null)), new Node(3, null, new Node(7, null, null)));
+		Node tree1 = new Node(1, new Node(3, new Node(5, null, null), null), new Node(2, null, null));
+		Node tree2 = new Node(2, new Node(1, null, new Node(4, null, null)), new Node(3, null, new Node(7, null, null)));
 		
 		System.out.println("Before merging");
-		System.out.println("bst1 is: ");
+		System.out.println("tree1 is: ");
 		System.out.println();
-		printTreeWithIndent(bst1, 10);
-		System.out.println("bst2 is: ");
+		printTreeWithIndent(tree1, 10);
+		System.out.println("tree2 is: ");
 		System.out.println();
-		printTreeWithIndent(bst2, 10);
+		printTreeWithIndent(tree2, 10);
 
-		Node mergedTree = mergeTreesAlternate(new Node(), bst1, bst2);
-//		mergeTrees(bst1, bst2);
+		Node mergedTree = mergeTrees(tree1, tree2);
 		
 		System.out.println("After merging");
-		System.out.println(mergedTree);
 		printTreeWithIndent(mergedTree, 10);
 		
 	}
 	
-	private static Node mergeTreesAlternate(Node bTree, Node bst1, Node bst2) {
-		
-		if(bst1 == null) {
-			return bst2;
-		}
-		
-		if(bst2 == null) {
-			return bst1;
-		}
-		
-		if(bTree == null) {
-			bTree = new Node();
-		}
-		
-		bTree.value = bst1.value + bst2.value;
-		if(bst1.left != null || bst2.left != null) {
-			bTree.left = mergeTreesAlternate(bTree.left, bst1.left, bst2.left);
-		}
-		
-		if(bst1.right != null || bst2.right != null) {
-			bTree.right = mergeTreesAlternate(bTree.right, bst1.right, bst2.right);
-		}
-		
-		return bTree;
 
+	private static Node mergeTrees(Node tree1, Node tree2) {
+		
+		if(tree1 == null) {
+			return tree2;
+		}
+		
+		if(tree2 == null) {
+			return tree1;
+		}
+		
+		Node mergedTree = new Node();
+		return mergeTreeHelper(tree1, tree2, mergedTree);
 	}
+
+
+	private static Node mergeTreeHelper(Node tree1, Node tree2, Node mergedTree) {
+		
+		if(tree1 == null) {
+			return tree2;
+		}
+		
+		if(tree2 == null) {
+			return tree1;
+		}
+		
+		if(mergedTree == null) {
+			mergedTree = new Node();
+		}
+		
+		mergedTree.value = tree1.value + tree2.value;
+		mergedTree.left = mergeTreeHelper(tree1.left, tree2.left, mergedTree.left);
+		mergedTree.right = mergeTreeHelper(tree1.right, tree2.right, mergedTree.right);
+		
+		return mergedTree;
+	}
+
 
 	private static void printTreeWithIndent(Node node, int depth) {
 		
@@ -73,23 +82,6 @@ public class Main {
 	}
 	
 
-	private static Node mergeTrees(Node bst1, Node bst2) {
-		
-		if(bst1 == null) {
-			return bst2;
-		}
-		
-		if(bst2 == null) {
-			return bst1;
-		}
-		
-		bst1.value += bst2.value;
-		bst1.left = mergeTrees(bst1.left, bst2.left);
-		bst1.right = mergeTrees(bst1.right, bst2.right);
-		
-		return bst1;
-		
-	}
 
 
 

@@ -10,8 +10,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-//		ListNode head = new ListNode(6, new ListNode(5, new ListNode(4, new ListNode(3, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6))))))));
-		ListNode head = new ListNode(1, new ListNode(0, new ListNode(1)));
+		ListNode head = new ListNode(7, new ListNode(5, new ListNode(4, new ListNode(3, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6))))))));
+//		ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(2, new ListNode(1)))));
 				
 		boolean result = checkIfPalindrome(head);
 		
@@ -21,48 +21,54 @@ public class Main {
 	
 	private static boolean checkIfPalindrome(ListNode head) {
 		
-		
+		if(head == null) {
+			return false;
+		}
+
 		ListNode slow = head;
 		ListNode fast = head;
 		
 		while(fast != null && fast.next != null) {
-			fast = fast.next.next;
 			slow = slow.next;
+			fast = fast.next.next;
 		}
 		
-		System.out.println("Head is " + head);
-		System.out.println("Slow is " + slow);
-		System.out.println("Fast is " + fast);
+		ListNode reversed = reverseRemainingNodes(slow);
 		
-		slow = reverse(slow);
-		fast = head;
+		return evaluatePalindrome(head, reversed);
 		
+	}
+
+	private static ListNode reverseRemainingNodes(ListNode middle) {
 		
-		while(slow != null) {
-			if(slow.val != fast.val) {
+		ListNode reversed = null;
+//		ListNode reversed = newHead;
+		
+		while(middle != null) {
+			ListNode nextNode = middle.next;
+			middle.next = reversed;
+			reversed = middle;
+			middle = nextNode;
+		}
+		
+		return reversed;
+	}
+
+
+	private static boolean evaluatePalindrome(ListNode head, ListNode reversed) {
+		
+		while(reversed != null) {
+			if(head.val != reversed.val) {
 				return false;
 			}
-			slow = slow.next;
-			fast = fast.next;
+			reversed = reversed.next;
+			head = head.next;
 		}
 		
 		return true;
 	}
 
 
-	private static ListNode reverse(ListNode slow) {
-		
-		ListNode reversedNode = null;
-		
-		while(slow != null) {
-			ListNode next = slow.next;
-			slow.next = reversedNode;
-			reversedNode = slow;
-			slow = next;
-		}
-		
-		return reversedNode;
-	}
 
 
 	public static class ListNode {

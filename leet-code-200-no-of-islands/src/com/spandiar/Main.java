@@ -16,46 +16,51 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		int[][] landMass = new int[][] {{1,1,0,0,0},{0,1,0,0,1},{0,0,0,1,1},{1,1,0,1,0}};
+		int[][] landMass = new int[][] {{1,1,0,1,1},{0,1,0,0,1},{0,0,0,1,1},{1,1,0,1,0}};
 		
-		int islandCount = findNoOfIslands(landMass);
-		
+		int islandCount = findIslandCount(landMass);
 		System.out.println("Island count is: " + islandCount);
 
 	}
 
-	private static int findNoOfIslands(int[][] landMass) {
+	private static int findIslandCount(int[][] landMass) {
 		
-		int islandCounter=0;
+		if(landMass == null) {
+			return 0;
+		}
 		
-		for(int i=0; i < landMass.length; i++) {
-			for(int j=0; j< landMass[i].length; j++) {
-				if(landMass[i][j] == 1) {
-					islandCounter++;
-					resetNeighbour(landMass, i, j);
+		int islandCount = 0;
+		
+		for(int row = 0; row < landMass.length; row++) {
+			for(int col = 0; col < landMass[row].length; col++) {
+				if(landMass[row][col] == 1) {
+					islandCount++;
+					checkAdjacentCells(landMass, row, col);
 				}
 			}
 		}
 		
-		return islandCounter;
+		return islandCount;
 	}
 
-	private static void resetNeighbour(int[][] landMass, int i, int j) {
+	private static void checkAdjacentCells(int[][] landMass, int row, int col) {
 		
-		if(i>=0 && j>= 0 && i < landMass.length && j < landMass[i].length) {
-			
-			if(landMass[i][j] == 1) {
-				
-				landMass[i][j] = 0;
-				System.out.println(String.format("i is %s j is %s landMass is %s ", i, j, Arrays.deepToString(landMass)));
-				resetNeighbour(landMass, i, j-1);
-				resetNeighbour(landMass, i, j+1);
-				resetNeighbour(landMass, i-1, j);
-				resetNeighbour(landMass, i+1, j);
-				
-			}
+		if(row < 0 || row >= landMass.length || col < 0 || col >= landMass[row].length) {
+			return;
+		}
+		
+		if(landMass[row][col] == 1) {
+			landMass[row][col] = 9;
+			checkAdjacentCells(landMass, row, col+1);
+			checkAdjacentCells(landMass, row, col-1);
+			checkAdjacentCells(landMass, row+1, col);
+			checkAdjacentCells(landMass, row-1, col);
+		} else {
+			return;
 		}
 		
 	}
+
+
 
 }

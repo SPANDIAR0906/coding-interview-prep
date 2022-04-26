@@ -16,7 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		int[] source = new int[] {1, 4, 5, 8, 13, 19, 24};
-		int target = 45;
+		int target = 24;
 		
 		int[] result = findTwoSum(source, target);
 		
@@ -32,17 +32,16 @@ public class Main {
 		while(pointerA <= pointerB) {
 			
 			if(source[pointerA] + source[pointerB] > target) {
-				pointerB -= 1;
+				pointerB--;
 			} else if(source[pointerA] + source[pointerB] < target) {
-				pointerA += 1;
+				pointerA++;
 			} else {
-				return new int[] {pointerA+1, pointerB+1};
+				return new int[] {pointerA, pointerB};
 			}
 			
 		}
 		
 		return new int[] {-1, -1};
-		
 	}
 
 }

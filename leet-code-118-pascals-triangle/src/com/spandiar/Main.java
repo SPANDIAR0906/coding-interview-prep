@@ -1,6 +1,7 @@
 package com.spandiar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -20,27 +21,35 @@ public class Main {
 
 	}
 
-	private static List<List<Integer>> drawPascalsTriangle(int rows) {
+	private static List<List<Integer>> drawPascalsTriangle(int counter) {
 		
 		List<List<Integer>> triangle = new ArrayList<>();
 		
-		if(rows == 0) return triangle;
+		if(counter <= 0) {
+			return triangle;
+		}
+
+		// add row 1
+		triangle.add(List.of(1));
 		
-		for (int i=1; i<= rows; i++) {
+		for(int i = 1; i < counter; i++) {
 			
 			List<Integer> currentRow = new ArrayList<>();
-			
-			for (int j=1; j<= i; j++) {
-				if(j == 1 || j == i) {
-					currentRow.add(1);
-				} else {
-					List<Integer> prevRow = triangle.get(i-2);
-					currentRow.add(prevRow.get(j-2) + prevRow.get(j-1));
-				}
+			List<Integer> previousRow = triangle.get(i-1);
+			int j = 1;
+
+			currentRow.add(1);
+			while(j < i) {
+				currentRow.add(previousRow.get(j-1) + previousRow.get(j));
+				j++;
 			}
+			currentRow.add(1);
+			
 			triangle.add(currentRow);
 		}
+		
 		return triangle;
 	}
+
 
 }

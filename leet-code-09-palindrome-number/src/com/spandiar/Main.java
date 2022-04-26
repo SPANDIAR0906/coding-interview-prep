@@ -36,6 +36,7 @@ public class Main {
 	}
 
 	private static boolean reversedInteger(int source) {
+		//134534
 		
 		int sourceCopy = source;
 		int reverse = 0;
